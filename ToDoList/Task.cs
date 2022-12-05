@@ -162,13 +162,6 @@ namespace ToDoList
             Console.WriteLine("Select the number of the task that you want to toggle: ");
             var taskId = Console.ReadLine();
 
-            if (String.IsNullOrWhiteSpace(taskId))
-            {
-                Console.WriteLine("Input cannot be empty");
-                ToggleTask(listId);
-                return;
-            }
-
             try
             {
                 var currentList = json[listId - 1];

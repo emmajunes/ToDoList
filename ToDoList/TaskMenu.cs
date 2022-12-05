@@ -7,12 +7,11 @@ namespace ToDoList
         public static void ChooseTaskMenu(int listId)
         {
             var json = FileManager.GetJson();
+            var tasks = json[listId - 1].Tasks;
 
             int taskId;
 
-            var tasks = json[listId - 1].Tasks;
-
-            if(tasks.Count == 0)
+            if (tasks.Count == 0)
             {
                 Console.WriteLine("There are no tasks in the list");
                 Thread.Sleep(1500);
@@ -24,7 +23,7 @@ namespace ToDoList
                 Console.WriteLine("Which task do you want to view?");
                 taskId = Convert.ToInt32(Console.ReadLine());
 
-                if (Convert.ToInt32(taskId) == 0 || tasks.Count < Convert.ToInt32(taskId))
+                if (taskId == 0 || tasks.Count < taskId)
                 {
                     Console.Clear();
                     Task.ViewTasks(listId);
@@ -78,11 +77,11 @@ namespace ToDoList
                         Console.ReadLine();
                         break;
                     case "4":
-                        Console.WriteLine("Go back to Start menu");
+                        Console.Clear();
                         StartMenu.CallStartMenu();
                         break;
                     default:
-                        Console.WriteLine("There are no option recognized to your input. Plese try again");
+                        Console.WriteLine("There are no option recognized to your input. Try again!");
                         Console.ReadLine();
                         break;
                 }

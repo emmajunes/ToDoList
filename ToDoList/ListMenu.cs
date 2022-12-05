@@ -40,10 +40,12 @@
                         Task.DeleteTask(listId);
                         break;
                     case "6":
+                        Console.Clear();
                         StartMenu.CallStartMenu();
                         break;
                     default:
-                        Console.WriteLine("There are no option recognized to your input. Plese try again");
+                        Console.WriteLine("There are no option recognized to your input. Try again!");
+                        Thread.Sleep(1500);
                         break;
 
                 }

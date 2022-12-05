@@ -1,6 +1,7 @@
 ﻿
 using System.Collections.Generic;
 using System.IO.Pipes;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -44,26 +45,22 @@ namespace ToDoList
 
         public static void ViewAllLists()
         {
-            //Console.Clear();
             var json = FileManager.GetJson();
 
             Console.WriteLine("\nOVERVIEW OF LISTS: \n");
 
             int index = 1;
-
             foreach (var lists in json)
             {
                 Console.WriteLine("[" + index + "]" + " " + lists.ListTitle);
                 index++;
             }
-
-            //ManageList();
         }
 
         public static void ManageList()
         {
             var json = FileManager.GetJson();
-           
+
             int listIndex;
 
             if (json.Count == 0)
@@ -86,7 +83,6 @@ namespace ToDoList
                 ViewAllLists();
                 Console.WriteLine("\nId does not exist. Try again!");
                 ManageList();
-
             }
             catch (FormatException)
             {
@@ -94,7 +90,6 @@ namespace ToDoList
                 ViewAllLists();
                 Console.WriteLine("\nId must be a number. Try again!");
                 ManageList();
-
             }
 
         }
@@ -108,16 +103,14 @@ namespace ToDoList
             if (json.Count == 0)
             {
                 Console.WriteLine("There are no lists available");
-                Thread.Sleep(2000);
+                Thread.Sleep(1500);
                 StartMenu.CallStartMenu();
             }
 
             Task.ViewTasks(lastCreated);
 
             ListMenu.CallListMenu(lastCreated);
-
         }
-
 
         public static void EditList(int listId)
         {
@@ -137,8 +130,6 @@ namespace ToDoList
 
             currentList.ListTitle = title;
 
-            //Console.WriteLine(json[listId - 1].ListTitle);
-
             FileManager.UpdateJson(json);
         }
 
@@ -148,20 +139,12 @@ namespace ToDoList
             int deleteList;
             ViewAllLists();
 
-            Console.Write("\nChoose a list to delete: ");
-            var deleteIndex = Console.ReadLine();
-
-            if (String.IsNullOrEmpty(deleteIndex))
-            {
-                Console.Clear();
-                Console.WriteLine("Id does not exist. Try again!");
-                DeleteList();
-                return;
-            }
-
             try
             {
-                if (Convert.ToInt32(deleteIndex) == 0 || json.Count < Convert.ToInt32(deleteIndex))
+                Console.Write("\nChoose a list to delete: ");
+                var deleteIndex = Convert.ToInt32(Console.ReadLine());
+
+                if (deleteIndex == 0 || json.Count < deleteIndex)
                 {
                     Console.Clear();
                     Console.WriteLine("Id does not exist. Try again!");
@@ -187,7 +170,6 @@ namespace ToDoList
                     json.RemoveAt(deleteList);
                     FileManager.UpdateJson(json);
                     return;
-
                 }
 
                 if (Convert.ToChar(deleteAnswer) == 'N')
@@ -196,7 +178,7 @@ namespace ToDoList
                 }
                 else
                 {
-                Console.WriteLine("Answer needs to be a letter of y or n");
+                    Console.WriteLine("Answer needs to be a letter of y or n");
                     DeleteList();
                     return;
                 }
@@ -223,7 +205,7 @@ namespace ToDoList
         {
             var json = FileManager.GetJson();
 
-            Console.WriteLine("Do you want to delete all lists y/n? : ");
+            Console.WriteLine("Do you want to delete all lists y/n? : "); // Skapa ny metod för y/n confirms?
             var deleteAnswer = Console.ReadLine().ToUpper();
 
             if (String.IsNullOrEmpty(deleteAnswer))
@@ -231,7 +213,7 @@ namespace ToDoList
                 Console.WriteLine("Input field cannot be empty");
                 DeleteAllLists();
                 return;
-            } 
+            }
 
             try
             {
@@ -259,11 +241,13 @@ namespace ToDoList
                 Console.WriteLine("Id must be a number. Try again!");
                 DeleteAllLists();
                 return;
-                
+
             }
 
-               
         }
-
+        public static void SortLists()
+        {
+            //Ska jag använda denna metod?
+        }
     }
 }

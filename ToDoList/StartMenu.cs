@@ -7,32 +7,21 @@ namespace ToDoList
     {
         public static void CallStartMenu()
         {
-            //Console.Clear();
-
             bool isRunning = true;
 
             while (isRunning)
             {
-                //Console.Clear(); vart ska jag ha denna egentligen?
-
                 Console.WriteLine("\nSTART MENU\n");
-                
+
                 Console.WriteLine("[1] Create a new list");
                 Console.WriteLine("[2] View all lists");
                 Console.WriteLine("[3] Open recent list");
-                Console.WriteLine("[4] Delete list"); //skapa delete all function?
+                Console.WriteLine("[4] Delete list");
                 Console.WriteLine("[5] Delete all lists");
                 Console.WriteLine("[6] Quit");
 
                 Console.Write("\nSelect an option: ");
                 var input = Console.ReadLine();
-
-                if (String.IsNullOrEmpty(input))
-                {
-                    Console.Clear();
-                    Console.WriteLine("Input cannot be empty");
-                    CallStartMenu();
-                }
 
                 switch (input)
                 {
@@ -40,6 +29,7 @@ namespace ToDoList
                         List.CreateList();
                         break;
                     case "2":
+                        Console.Clear();
                         List.ViewAllLists();
                         List.ManageList();
                         break;
@@ -67,22 +57,23 @@ namespace ToDoList
 
         public static bool CallStopMenu(bool isRunning)
         {
-            char exit;
-            try
-            {
-                Console.WriteLine("Do you want to quit y/n? ");
-                exit = Convert.ToChar(Console.ReadLine().ToUpper());
 
-                if (exit == 'Y')
-                {
-                    isRunning = false;
-                }
-            }
-            catch (FormatException)
+            Console.WriteLine("Do you want to quit y/n? ");
+            var exit = Console.ReadLine().ToUpper();
+
+            if (String.IsNullOrWhiteSpace(exit))
             {
-                Console.WriteLine("Answer needs to be a character");
-                
+                Console.WriteLine("Input cannot be empty");
+                CallStopMenu(isRunning);
+                return isRunning;
             }
+
+            if (exit == "Y")
+            {
+                isRunning = false;
+            }
+
+            Console.Clear();
 
             return isRunning;
         }
