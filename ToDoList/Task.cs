@@ -51,8 +51,19 @@ namespace ToDoList
 
             var json = FileManager.GetJson();
             var currentList = json[listId - 1];
+            Dictionary<string, int> colors = new()
+            {
+                { "Magenta", 13 },
+                { "Yellow", 14 },
+                { "Blue", 9 },
+                { "Red", 12 },
+                { "Cyan", 11 },
+                { "White", 15 }
+            };
 
+            Console.ForegroundColor = (ConsoleColor)colors[currentList.TitleColor];
             Console.WriteLine("\n" + currentList.ListTitle.ToUpper() + ":\n");
+            Console.ForegroundColor = ConsoleColor.White;
 
             var index = 1;
 
@@ -82,7 +93,6 @@ namespace ToDoList
             Task individualTask;
 
             individualTask = currentTask;
-
 
             if (individualTask.Completed)
             {
@@ -191,6 +201,9 @@ namespace ToDoList
         {
             var json = FileManager.GetJson();
 
+            var currentList = json[listId - 1];
+            var tasks = json[listId - 1].Tasks;
+
             int deleteIndex;
 
             try
@@ -205,9 +218,7 @@ namespace ToDoList
                 return;
             }
 
-            var currentList = json[listId - 1];
-            var tasks = json[listId - 1].Tasks;
-            var deleteTaskIndex = deleteIndex - 1;
+            int deleteTaskIndex = deleteIndex - 1;
 
             if (deleteIndex == 0 || deleteTaskIndex >= tasks.Count)
             {
@@ -264,8 +275,7 @@ namespace ToDoList
                 currentList.Tasks.RemoveAt(deleteTaskIndex);
                 FileManager.UpdateJson(json);
             }
-
-            
+  
         }
       
     }

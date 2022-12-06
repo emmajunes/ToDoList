@@ -31,7 +31,7 @@ namespace ToDoList
                     case "2":
                         Console.Clear();
                         List.ViewAllLists();
-                        List.ManageList();
+                        List.ChooseList();
                         break;
                     case "3":
                         List.OpenRecent();

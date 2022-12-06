@@ -57,8 +57,7 @@ namespace ToDoList
 
                 Console.WriteLine("[1] Edit task");
                 Console.WriteLine("[2] Delete task");
-                Console.WriteLine("[3] Archivate task");
-                Console.WriteLine("[4] Go back to Start menu");
+                Console.WriteLine("[3] Go back to Start menu");
 
                 Console.Write("\nSelect an option: ");
                 var input = Console.ReadLine();
@@ -73,16 +72,12 @@ namespace ToDoList
                         ListMenu.CallListMenu(listId);
                         return;
                     case "3":
-                        Console.WriteLine("Archivate task");
-                        Console.ReadLine();
-                        break;
-                    case "4":
                         Console.Clear();
                         StartMenu.CallStartMenu();
                         break;
                     default:
                         Console.WriteLine("There are no option recognized to your input. Try again!");
-                        Console.ReadLine();
+                        Thread.Sleep(1500);
                         break;
                 }
 

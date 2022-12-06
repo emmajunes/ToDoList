@@ -11,7 +11,9 @@ namespace ToDoList
     public class List
     {
         public string ListTitle { get; set; }
+        public string TitleColor { get; set; }
         public List<Task> Tasks { get; set; }
+
 
         public static void CreateList()
         {
@@ -41,23 +43,38 @@ namespace ToDoList
             Console.Clear();
             Console.WriteLine("New created list: " + title);
 
+            int listIndex = json.Count;
+            ColorList(listIndex);
         }
 
         public static void ViewAllLists()
         {
             var json = FileManager.GetJson();
-
             Console.WriteLine("\nOVERVIEW OF LISTS: \n");
-
             int index = 1;
-            foreach (var lists in json)
+            Dictionary<string, int> colors = new()
             {
-                Console.WriteLine("[" + index + "]" + " " + lists.ListTitle);
+                { "Magenta", 13 },
+                { "Yellow", 14 },
+                { "Blue", 9 },
+                { "Red", 12 },
+                { "Cyan", 11 },
+                { "White", 15 }
+            };
+
+            foreach (var list in json)
+            {
+                Console.ForegroundColor = (ConsoleColor)colors[list.TitleColor];
+
+                Console.WriteLine("[" + index + "]" + " " + list.ListTitle);
                 index++;
+                Console.ForegroundColor = ConsoleColor.White;
+
             }
+
         }
 
-        public static void ManageList()
+        public static void ChooseList()
         {
             var json = FileManager.GetJson();
 
@@ -82,14 +99,14 @@ namespace ToDoList
                 Console.Clear();
                 ViewAllLists();
                 Console.WriteLine("\nId does not exist. Try again!");
-                ManageList();
+                ChooseList();
             }
             catch (FormatException)
             {
                 Console.Clear();
                 ViewAllLists();
                 Console.WriteLine("\nId must be a number. Try again!");
-                ManageList();
+                ChooseList();
             }
 
         }
@@ -245,9 +262,49 @@ namespace ToDoList
             }
 
         }
-        public static void SortLists()
+        public static void ColorList(int listId)
         {
-            //Ska jag använda denna metod?
+            var json = FileManager.GetJson();
+            var currentList = json[listId - 1];
+
+            Console.WriteLine("\n[1] Magenta");
+            Console.WriteLine("[2] Yellow");
+            Console.WriteLine("[3] Blue");
+            Console.WriteLine("[4] Red");
+            Console.WriteLine("[5] Cyan");
+            Console.WriteLine("[6] White");
+
+            Console.WriteLine("\nSelect color to list title: ");
+            var colorId = Console.ReadLine();
+
+            switch (colorId)
+            {
+                case "1":
+                    currentList.TitleColor = "Magenta";
+                    break;
+                case "2":
+                    currentList.TitleColor = "Yellow";
+                    break;
+                case "3":
+                    currentList.TitleColor = "Blue";
+                    break;
+                case "4":
+                    currentList.TitleColor = "Red";
+                    break;
+                case "5":
+                    currentList.TitleColor = "Cyan";
+                    break;
+                case "6":
+                    currentList.TitleColor = "White";
+                    break;
+                default:
+                    Console.Clear();
+                    Console.WriteLine("There are no option recognized to your input Try again!");
+                    ColorList(listId);
+                    return;
+            }
+
+            FileManager.UpdateJson(json);
         }
     }
 }

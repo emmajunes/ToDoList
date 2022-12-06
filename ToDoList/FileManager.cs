@@ -8,7 +8,6 @@ namespace ToDoList
         private static readonly string _currentDir = Environment.CurrentDirectory;
         private static readonly string _path = Directory.GetParent(_currentDir).Parent.Parent.FullName + @"\ToDoList.json";
 
-    
         public void CreateJson()
         {
             if (!File.Exists(_path))
