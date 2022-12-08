@@ -16,9 +16,10 @@ namespace ToDoList
                 Console.WriteLine("[1] Create a new list");
                 Console.WriteLine("[2] View all lists");
                 Console.WriteLine("[3] Open recent list");
-                Console.WriteLine("[4] Delete list");
-                Console.WriteLine("[5] Delete all lists");
-                Console.WriteLine("[6] Quit");
+                Console.WriteLine("[4] Sort lists");
+                Console.WriteLine("[5] Delete list");
+                Console.WriteLine("[6] Delete all lists");
+                Console.WriteLine("[7] Quit");
 
                 Console.Write("\nSelect an option: ");
                 var input = Console.ReadLine();
@@ -37,13 +38,16 @@ namespace ToDoList
                         List.OpenRecent();
                         break;
                     case "4":
-                        List.DeleteList();
+                        List.SortList();
                         break;
                     case "5":
-                        List.DeleteAllLists();
+                        List.DeleteList();
                         break;
                     case "6":
-                        isRunning = StartMenu.CallStopMenu(isRunning);
+                        List.DeleteAllLists();
+                        break;
+                    case "7":
+                        isRunning = CallStopMenu(isRunning);
                         break;
                     default:
                         Console.Clear();
@@ -58,7 +62,7 @@ namespace ToDoList
         public static bool CallStopMenu(bool isRunning)
         {
 
-            Console.WriteLine("Do you want to quit y/n? ");
+            Console.Write("\nDo you want to quit y/n? ");
             var exit = Console.ReadLine().ToUpper();
 
             if (String.IsNullOrWhiteSpace(exit))

@@ -15,7 +15,6 @@ namespace ToDoList
                 using (var fs = File.Create(_path)) { }
 
                 File.WriteAllText(_path, "[]");
-
             }
         }
 
@@ -35,7 +34,6 @@ namespace ToDoList
             File.WriteAllText(_path, jsonData);
         }
 
-       
     }
 
 }

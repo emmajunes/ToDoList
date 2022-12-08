@@ -17,8 +17,9 @@
                 Console.WriteLine("[3] Add task");
                 Console.WriteLine("[4] View task");
                 Console.WriteLine("[5] Toggle task");
-                Console.WriteLine("[6] Delete task");
-                Console.WriteLine("[7] Go back to Start menu");
+                Console.WriteLine("[6] Sort tasks");
+                Console.WriteLine("[7] Delete task");
+                Console.WriteLine("[8] Go back to Start menu");
 
                 Console.Write("\nSelect an option: ");
                 var input = Console.ReadLine();
@@ -41,9 +42,12 @@
                         Task.ToggleTask(listId);
                         break;
                     case "6":
-                        Task.DeleteTask(listId);
+                        Task.SortTasks(listId);
                         break;
                     case "7":
+                        Task.DeleteTask(null, listId);
+                        break;
+                    case "8":
                         Console.Clear();
                         StartMenu.CallStartMenu();
                         break;
@@ -54,7 +58,6 @@
 
                 }
             }
-
         }
     }
 }

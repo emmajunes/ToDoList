@@ -1,1 +1,94 @@
-[{"ListTitle":"Plugg","TitleColor":"Cyan","Tasks":[]},{"ListTitle":"Handla","TitleColor":"Blue","Tasks":[]},{"ListTitle":"Julklappar","TitleColor":"Red","Tasks":[{"TaskTitle":"Maltes christmas gifts","TaskDescription":"Car","Completed":false},{"TaskTitle":"Belles christmas gift","TaskDescription":"Bus","Completed":true}]},{"ListTitle":"Semester","TitleColor":"Blue","Tasks":[]},{"ListTitle":"Leka","TitleColor":"Yellow","Tasks":[]},{"ListTitle":"Laga mat","TitleColor":"Red","Tasks":[]},{"ListTitle":"Shopping","TitleColor":"Cyan","Tasks":[]},{"ListTitle":"Semesterplanering","TitleColor":"Yellow","Tasks":[{"TaskTitle":"Husvagnsemester","TaskDescription":"Lycksele djurpark","Completed":false},{"TaskTitle":"Charterresa","TaskDescription":"Mallorca","Completed":true}]}]
+[
+  {
+    "ListTitle": "apa",
+    "TitleColor": "Cyan",
+    "ListDateTime": "2022-12-07 13:06:59",
+    "Tasks": [
+      {
+        "TaskTitle": "Hej",
+        "TaskDescription": "eryesyr",
+        "TaskPrio": "none",
+        "Completed": false
+      }
+    ]
+  },
+  {
+    "ListTitle": "Shoppa",
+    "TitleColor": "Magenta",
+    "ListDateTime": "2022-12-07 12:54:01",
+    "Tasks": [
+      {
+        "TaskTitle": "srghdr",
+        "TaskDescription": "hej",
+        "TaskPrio": "-",
+        "Completed": true
+      },
+      {
+        "TaskTitle": "Julklappar",
+        "TaskDescription": "Leksaksbil, lego",
+        "TaskPrio": "-",
+        "Completed": false
+      }
+    ]
+  },
+  {
+    "ListTitle": "hejsan",
+    "TitleColor": "Magenta",
+    "ListDateTime": "2022-12-07 13:00:42",
+    "Tasks": [
+      {
+        "TaskTitle": "Heh",
+        "TaskDescription": "da",
+        "TaskPrio": "none",
+        "Completed": true
+      }
+    ]
+  },
+  {
+    "ListTitle": "Hoppa",
+    "TitleColor": "Magenta",
+    "ListDateTime": "2022-12-07 13:01:23",
+    "Tasks": [
+    ]
+  },
+  {
+    "ListTitle": "glada",
+    "TitleColor": "Red",
+    "ListDateTime": "2022-12-07 13:00:50",
+    "Tasks": [
+    ]
+  },
+  {
+    "ListTitle": "jul",
+    "TitleColor": "Yellow",
+    "ListDateTime": "2022-12-07 13:00:55",
+    "Tasks": [
+    ]
+  },
+  {
+    "ListTitle": "sol",
+    "TitleColor": "Yellow",
+    "ListDateTime": "2022-12-07 13:01:06",
+    "Tasks": [
+      {
+        "TaskTitle": "sommar",
+        "TaskDescription": "moln",
+        "TaskPrio": "3",
+        "Completed": true
+      }
+    ]
+  },
+  {
+    "ListTitle": "Kaffe",
+    "TitleColor": "Yellow",
+    "ListDateTime": "2022-12-08 12:43:03",
+    "Tasks": [
+      {
+        "TaskTitle": "Gris",
+        "TaskDescription": "Rosa",
+        "TaskPrio": "none",
+        "Completed": false
+      }
+    ]
+  }
+]

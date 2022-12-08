@@ -12,6 +12,7 @@ namespace ToDoList
     {
         public string ListTitle { get; set; }
         public string TitleColor { get; set; }
+        public string ListDateTime { get; set; }
         public List<Task> Tasks { get; set; }
 
 
@@ -19,10 +20,10 @@ namespace ToDoList
         {
             var json = FileManager.GetJson();
 
-            Console.Write("Enter a name of the new list: ");
+            Console.Write("Enter a title of the new list: ");
             var title = (Console.ReadLine());
 
-            if (String.IsNullOrEmpty(title))
+            if (String.IsNullOrWhiteSpace(title))
             {
                 Console.WriteLine("List title cannot be empty");
 
@@ -33,7 +34,8 @@ namespace ToDoList
             var newList = new List()
             {
                 ListTitle = title,
-                Tasks = new List<Task>()
+                Tasks = new List<Task>(),
+                ListDateTime = DateTime.Now.ToString(),
             };
 
             json.Add(newList);
@@ -43,15 +45,15 @@ namespace ToDoList
             Console.Clear();
             Console.WriteLine("New created list: " + title);
 
-            int listIndex = json.Count;
-            ColorList(listIndex);
+            int createdList = json.Count;
+            ColorList(createdList);
+            Console.Clear();
         }
 
         public static void ViewAllLists()
         {
             var json = FileManager.GetJson();
-            Console.WriteLine("\nOVERVIEW OF LISTS: \n");
-            int index = 1;
+
             Dictionary<string, int> colors = new()
             {
                 { "Magenta", 13 },
@@ -62,34 +64,28 @@ namespace ToDoList
                 { "White", 15 }
             };
 
+            Console.WriteLine("\nOVERVIEW OF LISTS: \n");
+
+            int index = 1;
             foreach (var list in json)
             {
                 Console.ForegroundColor = (ConsoleColor)colors[list.TitleColor];
 
-                Console.WriteLine("[" + index + "]" + " " + list.ListTitle);
+                Console.WriteLine($"[{index}] {list.ListTitle}");
                 index++;
                 Console.ForegroundColor = ConsoleColor.White;
-
             }
-
         }
 
         public static void ChooseList()
         {
-            var json = FileManager.GetJson();
+            AvailableLists();
 
             int listIndex;
 
-            if (json.Count == 0)
-            {
-                Console.Clear();
-                Console.WriteLine("No lists available");
-                return;
-            }
-
             try
             {
-                Console.Write("\nChoose a list to manage that list: ");
+                Console.Write("\nChoose a list: ");
                 listIndex = Convert.ToInt32(Console.ReadLine());
 
                 ListMenu.CallListMenu(listIndex);
@@ -108,24 +104,15 @@ namespace ToDoList
                 Console.WriteLine("\nId must be a number. Try again!");
                 ChooseList();
             }
-
         }
 
         public static void OpenRecent()
         {
             var json = FileManager.GetJson();
-
             var lastCreated = json.Count;
 
-            if (json.Count == 0)
-            {
-                Console.WriteLine("There are no lists available");
-                Thread.Sleep(1500);
-                StartMenu.CallStartMenu();
-            }
-
+            AvailableLists();
             Task.ViewTasks(lastCreated);
-
             ListMenu.CallListMenu(lastCreated);
         }
 
@@ -134,13 +121,12 @@ namespace ToDoList
             var json = FileManager.GetJson();
             var currentList = json[listId - 1];
 
-            Console.WriteLine("Write a new name to the list: ");
+            Console.WriteLine("Write a new title to the list: ");
             var title = Console.ReadLine();
 
-            if (String.IsNullOrEmpty(title))
+            if (String.IsNullOrWhiteSpace(title))
             {
                 Console.WriteLine("List title cannot be empty");
-
                 EditList(listId);
                 return;
             }
@@ -153,46 +139,49 @@ namespace ToDoList
         public static void DeleteList()
         {
             var json = FileManager.GetJson();
-            int deleteList;
+            AvailableLists();
             ViewAllLists();
+            int deleteList;
 
             try
             {
                 Console.Write("\nChoose a list to delete: ");
                 var deleteIndex = Convert.ToInt32(Console.ReadLine());
 
-                if (deleteIndex == 0 || json.Count < deleteIndex)
+                if (deleteIndex <= 0 || json.Count < deleteIndex)
                 {
                     Console.Clear();
                     Console.WriteLine("Id does not exist. Try again!");
                     DeleteList();
                     return;
                 }
-                deleteList = Convert.ToInt32(deleteIndex) - 1;
 
-                Console.WriteLine("Do you want to delete this list y/n?");
+                deleteList = deleteIndex - 1;
+
+                Console.WriteLine("Do you want to delete this list y/n? ");
                 var deleteAnswer = Console.ReadLine().ToUpper();
 
                 if (String.IsNullOrWhiteSpace(deleteAnswer))
                 {
-                    Console.WriteLine("Field cannot be empty");
+                    Console.WriteLine("Input field cannot be empty");
                     DeleteList();
                     return;
                 }
 
-                if (Convert.ToChar(deleteAnswer) == 'Y')
+                if (deleteAnswer == "Y")
                 {
                     Console.Clear();
-                    Console.WriteLine("Deleted list: " + json[deleteList].ListTitle);
+                    Console.WriteLine($"Deleted list: {json[deleteList].ListTitle}");
                     json.RemoveAt(deleteList);
                     FileManager.UpdateJson(json);
                     return;
                 }
 
-                if (Convert.ToChar(deleteAnswer) == 'N')
+                else if (deleteAnswer == "N")
                 {
                     return;
                 }
+
                 else
                 {
                     Console.WriteLine("Answer needs to be a letter of y or n");
@@ -221,44 +210,31 @@ namespace ToDoList
         public static void DeleteAllLists()
         {
             var json = FileManager.GetJson();
+            AvailableLists();
 
-            Console.WriteLine("Do you want to delete all lists y/n? : "); // Skapa ny metod för y/n confirms?
+            Console.WriteLine("Do you want to delete all lists y/n? ");
             var deleteAnswer = Console.ReadLine().ToUpper();
 
-            if (String.IsNullOrEmpty(deleteAnswer))
+            if (deleteAnswer == "Y")
             {
-                Console.WriteLine("Input field cannot be empty");
-                DeleteAllLists();
+                Console.Clear();
+                Console.WriteLine("All lists deleted");
+                json.Clear();
+                FileManager.UpdateJson(json);
                 return;
             }
 
-            try
+            else if (deleteAnswer == "N")
             {
-                if (Convert.ToChar(deleteAnswer) == 'Y')
-                {
-                    Console.Clear();
-                    Console.WriteLine("All lists deleted");
-                    json.Clear();
-                    FileManager.UpdateJson(json);
-                    return;
-                }
-                if (Convert.ToChar(deleteAnswer) == 'N')
-                {
-                    return;
-                }
-                else
-                {
-                    Console.WriteLine("Answer needs to be a letter of y or n");
-                    DeleteAllLists();
-                    return;
-                }
+                Console.Clear();
+                return;
             }
-            catch (FormatException)
+
+            else
             {
-                Console.WriteLine("Id must be a number. Try again!");
+                Console.WriteLine("Answer needs to be a letter of y or n");
                 DeleteAllLists();
                 return;
-
             }
 
         }
@@ -305,6 +281,57 @@ namespace ToDoList
             }
 
             FileManager.UpdateJson(json);
+        }
+
+        public static void SortList()
+        {
+            var json = FileManager.GetJson();
+            AvailableLists();
+
+            Console.WriteLine("\n[1] Sort by latest created list");
+            Console.WriteLine("[2] Sort by oldest created list");
+            Console.WriteLine("[3] Sort by name");
+            Console.WriteLine("[4] Sort by color");
+
+            Console.Write("\nSelect an option: ");
+            var input = Console.ReadLine();
+
+            switch (input)
+            {
+                case "1":
+                    json = json.OrderByDescending(x => x.ListDateTime).ToList();
+                    break;
+                case "2":
+                    json = json.OrderBy(x => x.ListDateTime).ToList();
+                    break;
+                case "3":
+                    json = json.OrderBy(x => x.ListTitle).ToList();
+                    break;
+                case "4":
+                    json = json.OrderBy(x => x.TitleColor).ToList();
+                    break;
+                default:
+                    Console.Clear();
+                    Console.WriteLine("\nThere are no option recognized to your input. Try again!");
+                    SortList();
+                    return;
+            }
+
+            FileManager.UpdateJson(json);
+            Console.Clear();
+            ViewAllLists();
+        }
+
+        public static void AvailableLists()
+        {
+            var json = FileManager.GetJson();
+
+            if (json.Count == 0)
+            {
+                Console.Clear();
+                Console.WriteLine("No lists available");
+                StartMenu.CallStartMenu();
+            }
         }
     }
 }
