@@ -75,6 +75,7 @@ namespace ToDoList
             if (exit == "Y")
             {
                 isRunning = false;
+                return isRunning;
             }
 
             Console.Clear();
